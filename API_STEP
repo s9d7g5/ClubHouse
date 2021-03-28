@@ -1,0 +1,91 @@
+Note. 
+This document shows what is behavior as an api
+The api name is [a-z_a-z_a-z...]
+If you see the '[+]', it is requirement parameter on each API.
+If you see the '[*]', it is giving some tips to you. 
+
+1. Initialization
+    check_for_update : Execute the Application
+    1) Sign up
+        - start_phone_number_auth
+            [+] phone_number
+            1) IF Wrong : 400 HTTP status
+            2) IF Correct : 200 HTTP status
+                - complete_phone_number_auth
+                    [+] verification_code
+                    [+] phone_number
+                    [+] device_token (Is it important? I am not sure..)
+
+                    if user not DB:
+
+                        [+] update_name
+                        First < 25  
+                        Last < 25 
+                        - The name can use number also (eg. First:1234, Last:5678)
+
+                        if len(First) && len(Last) < 25
+                            - update_username
+                            [+] username
+
+                            if update_username != [A-Za-z0-9]:
+                                if status == 400:
+                                    This username has already been taken by a different user.
+                            if  username > 15:
+                                pass 
+                            
+                            if  username < 15:
+                                - check_waitlist_status
+
+
+                    - update_notifications
+    2) Sign in 
+        - phone number 
+2. Sync User 
+    record_action_trails
+
+3. Channel
+    - join_channel
+        [+] channel
+        - audience_reply
+            [+] raise_hands (bool)
+            [+] unraise_hands (bool)
+
+    - leave_channel
+
+4. Settings
+    - get_settings
+        - get_profile
+            - get_followers
+            - get_following
+            - add_email (Verify your Email)
+            - invited_by_user_profile
+            - invited_by_club
+            - Instagram (Not work)
+            - Twitter (Not work)
+        - Frequency (depends on frequency number)    
+        - INTERESTS 
+            - add_user_topic
+
+5. Lobby
+    - get_online_friend (Hmm.. Thinking... Is it important?)
+    - get_suggested_invites (You can invite your friend or checking the available ticket)
+    - get_events
+    - get_create_channel_targets (Generate Room)
+    - get_suggested_speakers (Speaker choice manually)
+        - create_channel
+            - me
+                - get_channels
+                    - change_handraise_settings (The Operator can handle who users available hand-raise function)
+                        [+] handraise_permission 
+                    - active_ping
+                        [+] channel_id
+    - get_suggested_follows_all (You can see the celebrity people on Response data)
+        : GET method 
+    - search_users (This API's result is real-time because of query)
+        [+] "cofollows_only":false
+        [+] "following_only":false
+        [+] "followers_only":false
+        [+] "query":"{input}"
+
+[*] The logout cannot automatically.
+[*] If you are newbie, you must receive invite ticket from your friend.
