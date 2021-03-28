@@ -17,11 +17,20 @@ import sys
 
 urllib3.disable_warnings()
 
+# List INDEX
+# Fixed
+NAME = 0
+USERNAME = 1
+AUTH_TOKEN = 2
+REFRESH_TOKEN = 3
+ACCESS_TOKEN  = 4
+
 class ClubHouse():
     # Header
     MAIN_URL = "https://www.clubhouseapi.com/api/"
     COPY_URL = MAIN_URL
     VALID_USER_INFO = [] 
+    CHANNEL_INFO = []
     # When you make a header, If you don't have a cookie the cookie will set on the response through the set-cookie
     HEADER = {
         "CH-UserID": "null",
@@ -120,6 +129,24 @@ class ClubHouse():
             sys.exit(0)
 
     def Send_Verification_Code(self, phone_number, verify_code):
+        '''
+            POST /api/complete_phone_number_auth HTTP/1.1
+            Host: www.clubhouseapi.com
+            Accept: application/json
+            CH-UserID: (null)
+            CH-Languages: en-SG
+            CH-Locale: en_SG
+            Accept-Encoding: gzip, deflate
+            Accept-Language: en-SG;q=1
+            CH-AppBuild: 331
+            CH-AppVersion: 0.1.31
+            Content-Length: 3046
+            CH-DeviceId: 621BDF2D-1C4D-4C18-B2FE-9E355B2E0600
+            User-Agent: clubhouse_sangsoo/331 (iPhone; iOS 13.6.1; Scale/3.00)
+            Connection: close
+            Content-Type: application/json; charset=utf-8
+            Cookie: __cfduid=d8b363bfb009df528267f48646f7ddfe41616832953
+        '''
         self.MAIN_URL = self.COPY_URL
         self.MAIN_URL += "complete_phone_number_auth"
         print(self.MAIN_URL)
@@ -148,6 +175,9 @@ class ClubHouse():
                 refresh_token = _json_data['refresh_token']
                 access_token = _json_data['access_token']
                 
+                print(f"JSONG TEST = {_json_data}")
+                print(f"AUTHTOKEN TEST = {auth_token}")
+
                 self.VALID_USER_INFO.append(name)
                 self.VALID_USER_INFO.append(username)
                 self.VALID_USER_INFO.append(auth_token)
@@ -164,10 +194,23 @@ class ClubHouse():
         self.MAIN_URL += "update_notifications"
         print(self.MAIN_URL)
         # DEFAULT
+
+        # Trial or Error
+        # --> Missed Authorization: Token c1f7a72e24b53e3a5bdc6d8bd72b96d15ad0751e
+
+        # fixed
+        # Among the complete_phone_number_auth's response auth_token
+
+        # Trial or Error
+        # ---> The list index didn't set starting to '0'.
+        self.HEADER['Authorization'] = f"Token {self.VALID_USER_INFO[AUTH_TOKEN]}"
+
         UPDATE_NOTIFICATION =  {
             "enable_trending":-1,
             "pause_till":-1,
             "is_sandbox":False,
+
+            # How can I get apn_token?
             #"apn_token":"297711469a8359410ca2f76947e451fedda480bd3f70092f33b95c2896c45192",
             "system_enabled":1,
             "frequency":-1
@@ -207,21 +250,30 @@ class ClubHouse():
 
         _json_data = response_post.json()
 
-        if response_get.status_code == 401:
-            print(f"401 ===> {response_get.text}")
+        if response_post.status_code == 401:
+            print(f"401 ===> {response_post.text}")
         
 
     def Show_Channel_List(self):
         self.MAIN_URL = self.COPY_URL
         self.MAIN_URL += "get_channels"       
-
+        print(self.MAIN_URL)
         response_get = requests.get(
             self.MAIN_URL,
             headers=self.HEADER,
             #params=parameter,
             verify=False)
-        
+        self.MAIN_URL = "" # Initialization    
         if response_get.status_code == 200:
+            _json_data = response_get.json()
             print(response_get.text)
+
         if response_get.status_code == 401:
             print(f"401 ===> {response_get.text}")
+
+    def EntraceClubMember():
+        '''
+            GET /api/get_club_members?club_id=447062751&return_followers=0&
+        '''
+
+        
