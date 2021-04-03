@@ -1,0 +1,15 @@
+NOT WORKING
+GET /api/get_channels HTTP/1.1
+Host: www.clubhouseapi.com
+User-Agent: clubhouse/331 (iPhone; iOS 13.6.1; Scale/3.00)
+Accept-Encoding: gzip, deflate
+Accept: application/json; charset=utf-8
+Connection: close
+CH-UserID: null
+CH-Languages: en-SG
+CH-Locale: en_SG
+Accept-Language: en-SG;q=1
+CH-AppBuild: 331
+CH-AppVersion: 0.1.31
+CH-DeviceId: 621BDF2D-1C4D-4C18-B2FE-9E355B2E0600
+

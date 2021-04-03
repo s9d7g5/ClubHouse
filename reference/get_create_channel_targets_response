@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Date: Sat, 03 Apr 2021 08:54:04 GMT
+Content-Type: application/json
+Content-Length: 3118
+Connection: close
+Allow: OPTIONS, POST
+X-Frame-Options: DENY
+Vary: Accept-Encoding, Origin
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+CF-Cache-Status: DYNAMIC
+cf-request-id: 0938898e450000e25b2c95c000000001
+Expect-CT: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+Server: cloudflare
+CF-RAY: 63a111f6d9e8e25b-SIN
+
+{"events":[],"clubs":[{"club_id":720478378,"name":"Infosec-KR","description":"정보보안에 관심 있는 사람들이 모여있는 곳' or 1=1--","photo_url":"https://clubhouseprod.s3.amazonaws.com:443/club_720478378_055fef32-94c1-4cc7-9d53-79a3707e01a9_thumbnail_250x250","num_members":116,"num_followers":134,"enable_private":true,"is_follow_allowed":true,"is_membership_private":false,"is_community":true,"rules":[{"desc":"정보보안에 종사하고 있는 분들이나 과거에 했던 분들 모두 클럽에 조인할 수 있습니다. Covid19 이후로 어려워진 커뮤니케이션 환경 속에서 서로의 생존여부도 확인하고, 정보보안 이슈에 대한 발전적인 이야기도 나누어 보아요! ","title":"정보보안을 사랑하는 사람이라면 누구나..."},{"desc":"정보보안에 대한 방을 개설하여 함께 이야기를 나누고 싶은 분들도 많을 것 같습니다. 클럽이 하나의 좋은 알림 수단이 되는 것을 기대하여 봅니다. ","title":"정보보안 이슈에 대한 방이라면 언제든지!"}],"url":"https://www.joinclubhouse.com/club/Infosec-KR","num_online":0,"is_admin":false},{"club_id":1447251782,"name":"FORENSIC INSIGHT","description":"Digital Forensics & Incident Response Group @Korea  페이스북 그룹도 있습니다. 누구나 관심있는 분들을 초대할 수 있고 이야기 나누고 싶은 주제가 있으면 자유롭게 방을 열어주세요.","photo_url":"https://clubhouseprod.s3.amazonaws.com:443/club_1447251782_774f7321-a8a6-4726-b16b-94ca8aefde50_thumbnail_250x250","num_members":53,"num_followers":54,"enable_private":true,"is_follow_allowed":true,"is_membership_private":false,"is_community":true,"rules":[],"url":"https://www.joinclubhouse.com/club/forensic-insight","num_online":0,"is_admin":false},{"club_id":447062751,"name":"보안 노가리 (꼰대일지도....)","description":"보안과 관련된 직군에 대한 담소(인생, 목표, 공부, 가즈아~^^)","photo_url":"https://clubhouseprod.s3.amazonaws.com:443/club_447062751_76f672e8-c757-44ee-b920-d032fd4ca925_thumbnail_250x250","num_members":20,"num_followers":52,"enable_private":true,"is_follow_allowed":true,"is_membership_private":false,"is_community":true,"rules":[],"url":"https://www.joinclubhouse.com/club/%EB%B3%B4%EC%95%88-%EB%85%B8%EA%B0%80%EB%A6%AC-%EA%BC%B0%EB%8C%80%EC%9D%BC%EC%A7%80%EB%8F%84","num_online":0,"is_admin":false},{"club_id":1075756776,"name":"리버스 엔지니어링","description":"클럽을 팔로잉하시면 클럽 관리자가 주기적으로 확인하여 클럽에 초대해 드립니다. 클럽 참여를 원하는 경우 클럽을 팔로잉해주세요.","photo_url":"https://clubhouseprod.s3.amazonaws.com:443/club_1075756776_06847b7f-20ce-46c4-baf8-a0ae6b2b10ef_thumbnail_250x250","num_members":51,"num_followers":3,"enable_private":true,"is_follow_allowed":true,"is_membership_private":false,"is_community":true,"rules":[],"url":"https://www.joinclubhouse.com/club/%EB%A6%AC%EB%B2%84%EC%8A%A4-%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81","num_online":0,"is_admin":false}],"success":true}
