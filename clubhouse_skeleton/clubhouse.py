@@ -9,6 +9,9 @@ Methodology
 1. To get API function name -> Decrypted ios encrypt logic
 2. To packet analysis -> Through Disable SSL Pinning 
 '''
+
+
+
 import requests
 import urllib3
 import random
@@ -19,18 +22,26 @@ urllib3.disable_warnings()
 
 # List INDEX
 # Fixed
-NAME = 0
-USERNAME = 1
-AUTH_TOKEN = 2
-REFRESH_TOKEN = 3
-ACCESS_TOKEN  = 4
+USERID = 0
+NAME = 1
+USERNAME = 2
+AUTH_TOKEN = 3
+REFRESH_TOKEN = 4
+ACCESS_TOKEN  = 5
 
 class ClubHouse():
+    
     # Header
     MAIN_URL = "https://www.clubhouseapi.com/api/"
     COPY_URL = MAIN_URL
     VALID_USER_INFO = [] 
     CHANNEL_INFO = []
+    phone = ""
+    set_cookie = "default"
+    cloudflare = {
+            "__cfduid" : f"{set_cookie}"
+        }
+
     # When you make a header, If you don't have a cookie the cookie will set on the response through the set-cookie
     HEADER = {
         "CH-UserID": "null",
@@ -45,6 +56,9 @@ class ClubHouse():
         "User-Agent": "clubhouse/331 (iPhone; iOS 13.6.1; Scale/3.00)"
     }
     
+    def test_case(self):
+        print(self.VALID_USER_INFO)
+
     def HTTP_Protocol(self,http,json_data,parameter):
         if(http == "post"):
             response_post = requests.post(  self.MAIN_URL, 
@@ -90,31 +104,32 @@ class ClubHouse():
         return response_get
 
     def Get_User_Header(self,response_data):
-        return response_data.headers
+        #print("HEARRRRRRR")
+        cloudflare_cookie = response_data.headers['Set-Cookie'].split(";")[0].split("__cfduid=")[1]
+        self.cloudflare['__cfduid'] = cloudflare_cookie
 
-
-
-    def Authentication(self, set_cookie, phone_number):
+    def Authentication(self):
         self.MAIN_URL = self.COPY_URL
         self.MAIN_URL += "start_phone_number_auth"
         print(self.MAIN_URL)
         # append json data (__cfduid)
+        '''     
         cloudflare = {
-            "__cfduid" : f"{set_cookie}"
+            "__cfduid" : f"{self.cloudflare}"
         }
-
+        '''
         # WRONG
         #self.HEADER['__cfduid'] = f"{set_cookie}"
 
         PHONE = {
-            "phone_number" : f"{phone_number}"
+            "phone_number" : f"{self.phone}"
         }
 
         
         response_post = requests.post(  self.MAIN_URL, 
                         #PHONE, ##### => Note. Although the Clubhouse Request is post, but do not use real POST data
                         json = PHONE,
-                        cookies=cloudflare, # correct
+                        cookies=self.cloudflare, # correct
                         headers=self.HEADER,
                         verify = False
                     )
@@ -122,7 +137,7 @@ class ClubHouse():
         self.MAIN_URL = ""   # Important
 
         if(response_post.status_code == 200):
-            print(f"Welcome {phone_number}")
+            print(f"Welcome {self.phone}")
             return 1
         else:
             print("Could you check your Phone number again?")
@@ -169,15 +184,17 @@ class ClubHouse():
             _json_data = response_post.json()
             print(_json_data) # Debug
             try:
+                user_id = _json_data['user_profile']['user_id']
                 name = _json_data['user_profile']['name']
                 username = _json_data['user_profile']['username']
                 auth_token = _json_data['auth_token']
                 refresh_token = _json_data['refresh_token']
                 access_token = _json_data['access_token']
                 
-                print(f"JSONG TEST = {_json_data}")
+                print(f"JSON TEST = {_json_data}")
                 print(f"AUTHTOKEN TEST = {auth_token}")
 
+                self.VALID_USER_INFO.append(user_id)
                 self.VALID_USER_INFO.append(name)
                 self.VALID_USER_INFO.append(username)
                 self.VALID_USER_INFO.append(auth_token)
@@ -185,9 +202,11 @@ class ClubHouse():
                 self.VALID_USER_INFO.append(access_token)
                 
                 print(self.VALID_USER_INFO)
-                return True
+                return self.VALID_USER_INFO
+
             except KeyError as f:
                 print(f"This key json type is error {f} ! ! !")
+                sys.exit(0)
 
     def Comming_Lobby(self):
         self.MAIN_URL = self.COPY_URL
@@ -266,7 +285,7 @@ class ClubHouse():
         self.MAIN_URL = "" # Initialization    
         if response_get.status_code == 200:
             _json_data = response_get.json()
-            print(response_get.text)
+            #print(_json_data['channels']['channel_id'])
 
         if response_get.status_code == 401:
             print(f"401 ===> {response_get.text}")
@@ -276,4 +295,28 @@ class ClubHouse():
             GET /api/get_club_members?club_id=447062751&return_followers=0&
         '''
 
-        
+    def Join_Channel(self, channel):
+        # post 
+        self.MAIN_URL = self.COPY_URL
+        self.MAIN_URL += "join_channel"
+        print(self.MAIN_URL)
+
+        '''
+        HEADER ISSUE : CH-UserID: (null) 
+        '''
+
+        choice_channel = {
+            "channel":f"{channel}",
+            "attribution_source":"feed",
+            "attribution_details":f'{random.randint(1,100)}'
+        }
+        print("JOIN TRYING.....")
+        response_post = requests.post(  self.MAIN_URL, 
+                    #PHONE, ##### => Note. Although the Clubhouse Request is post, but do not use real POST data
+                    json = choice_channel,
+                    headers=self.HEADER,
+                    verify = False
+                )
+        print("JOIN ??")
+        return response_post.json()
+        self.MAIN_URL = ""
